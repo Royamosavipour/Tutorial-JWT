@@ -50,7 +50,7 @@ const handler = async (req, res) => {
         "Set-Cookie",
         serialize("token", token, {
           httpOnly: true,
-          maxAge: 60 * 60 * 24 * 7, // 1 week
+          maxAge: 60 * 60 * 24, // 1 week
         })
       )
       .status(201)
