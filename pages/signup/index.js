@@ -6,13 +6,13 @@ function Index() {
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [Username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signup = async (event) => {
     event.preventDefault();
-    const user = { firstname, lastname, Username, email, password };
+    const user = { firstname, lastname, username, email, password };
 
     const res = await fetch("/api/auth/signup", {
       method: "POST",
@@ -63,7 +63,7 @@ function Index() {
         <div className="inputBox">
           <input
             type="text"
-            value={Username}
+            value={username}
             onChange={(event) => setUsername(event.target.value)}
             autoComplete="off"
             required

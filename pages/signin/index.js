@@ -3,26 +3,26 @@ import React, { useState } from "react";
 
 function Index() {
   const router = useRouter();
-  const [identifier, setIdentifire] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
-  const signIn = async (e) => {
-    e.preventDefault();
+  const signIn = async (event) => {
+    event.preventDefault();
+
     const user = { identifier, password };
 
     const res = await fetch("/api/auth/signin", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(user),
     });
-    
-
-    
 
     if (res.status === 200) {
-      setIdentifire("");
+      setIdentifier("");
       setPassword("");
-      alert("Regestering is successfully");
+      alert("Logged In Successfully :))");
       router.replace("/dashboard");
     } else if (res.status === 404) {
       alert("User Not Found :))");
@@ -30,7 +30,6 @@ function Index() {
       alert("username or password is not correct :((");
     } else if (res.status === 500) {
       alert("...");
-      console.log(res.text())
     }
   };
 
@@ -41,20 +40,20 @@ function Index() {
         <div className="inputBox">
           <input
             type="text"
+            value={identifier}
+            onChange={(event) => setIdentifier(event.target.value)}
             autoComplete="off"
             required
-            value={identifier}
-            onChange={(e) => setIdentifire(e.target.value)}
           />
-          <label>Username OR Email</label>
+          <label>Username | Email</label>
         </div>
         <div className="inputBox">
           <input
             type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             autoComplete="off"
             required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
           />
           <label>Password</label>
         </div>

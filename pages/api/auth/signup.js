@@ -9,13 +9,13 @@ const handler = async (req, res) => {
   }
 
   try {
-    connectToDB();
-    const { firstname, lastname, Username, email, password } = req.body;
+    connectToDB()
+    const { firstname, lastname, username, email, password } = req.body;
     // ========================> validation
     if (
       !firstname.trim() ||
       !lastname.trim() ||
-      !Username.trim() ||
+      !username.trim() ||
       !email.trim() ||
       !password.trim()
     ) {
@@ -23,7 +23,7 @@ const handler = async (req, res) => {
     }
     // ================>  make isUserExist
     const isUserExist = await UserModel.findOne({
-      $or: [{ Username }, { email }],
+      $or: [{ username }, { email }],
     });
     if (isUserExist) {
       return res
@@ -40,7 +40,7 @@ const handler = async (req, res) => {
     await UserModel.create({
       firstname,
       lastname,
-      Username,
+      username,
       email,
       password: hashedPasword,
       role: users.length > 0 ? "USER" : "USER",
@@ -57,7 +57,7 @@ const handler = async (req, res) => {
       .status(200)
       .json({ message: "user create with successfully" });
   } catch (err) {
-    return res.status(500).json({ message: "Unkown Internal server !!" });
+    return res.status(500).json({ message: "Unkown Internal server !!", err });
   }
 };
 

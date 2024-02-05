@@ -1,6 +1,6 @@
 import UserModel from "@/models/User";
 import connectToDB from "@/configes/db";
-import { generateToken, verifyPassword } from "@/Utils/auth";
+import { generatToken, verifyPassword } from "@/Utils/auth";
 import { serialize } from "cookie";
 
 const handler = async (req, res) => {
@@ -10,18 +10,16 @@ const handler = async (req, res) => {
 
   try {
     connectToDB();
-    const { identifier, password } = req.body;
 
-    
+    const { identifier, password } = req.body;
 
     if (!identifier.trim() || !password.trim()) {
       return res.status(422).json({ message: "Data is not valid !!" });
     }
 
     const user = await UserModel.findOne({
-      $or: [{ Username: identifier }, { email: identifier }],
+      $or: [{ username: identifier }, { email: identifier }],
     });
-
 
     if (!user) {
       return res.status(404).json({ message: "User not found !!" });
@@ -29,14 +27,13 @@ const handler = async (req, res) => {
 
     const isValidPassword = await verifyPassword(password, user.password);
 
-
     if (!isValidPassword) {
       return res
         .status(422)
         .json({ message: "username or password is not correct !!" });
     }
 
-    const token = generateToken({ email: user.email });
+    const token = generatToken({ email: user.email });
 
     return res
       .setHeader(
@@ -52,7 +49,7 @@ const handler = async (req, res) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ message: "UnKnown Internal Server Erorr !!",err });
+      .json({ message: "UnKnown Internal Server Erorr !!" });
   }
 };
 
