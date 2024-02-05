@@ -33,8 +33,8 @@ const handler = async (req, res) => {
     // =======================> make hash password
 
     const hashedPasword = await hashPassword(password);
-      const token = generatToken({ email });
-      const users=await UserModel.find({})
+    const token = generatToken({ email });
+    const users = await UserModel.find({});
 
     // ===========================>  make usermodel
     await UserModel.create({
@@ -43,17 +43,18 @@ const handler = async (req, res) => {
       Username,
       email,
       password: hashedPasword,
-      role: users.length >0 ? "USER":"ADMIN"
+      role: users.length > 0 ? "USER" : "USER",
     });
     return res
       .setHeader(
         "Set-Cookie",
         serialize("token", token, {
+          path: "/",
           httpOnly: true,
-          maxAge: 60 * 60 * 24, // 1 week
+          maxAge: 60 * 60 * 24 * 7, // 1 week
         })
       )
-      .status(201)
+      .status(200)
       .json({ message: "user create with successfully" });
   } catch (err) {
     return res.status(500).json({ message: "Unkown Internal server !!" });

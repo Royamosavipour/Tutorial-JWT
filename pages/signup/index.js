@@ -6,13 +6,13 @@ function Index() {
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [username, setUsername] = useState("");
+  const [Username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signup = async (event) => {
     event.preventDefault();
-    const user = { firstname, lastname, username, email, password };
+    const user = { firstname, lastname, Username, email, password };
 
     const res = await fetch("/api/auth/signup", {
       method: "POST",
@@ -32,8 +32,7 @@ function Index() {
       alert("Registered Successfully :))");
       router.replace("/dashboard");
     } else if (res.status === 422) {
-      alert("firstname or email already exist !!")
-      
+      alert("firstname or email already exist !!");
     }
   };
 
@@ -64,7 +63,7 @@ function Index() {
         <div className="inputBox">
           <input
             type="text"
-            value={username}
+            value={Username}
             onChange={(event) => setUsername(event.target.value)}
             autoComplete="off"
             required
